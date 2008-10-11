@@ -1,3 +1,46 @@
+" hides file types in directory listings
+let g:netrw_list_hide='^\.svn/$,^\.settings/$,.*\.pyo$,.*\.pyc,.*\.obj'
+
+" Launches web browser with the given URL.
+function! LaunchBrowser(url)
+    let startcmd = has("win32") || has("win64") ? "! start " : "! "
+    let endcmd = has("unix") ? "&" : ""
+
+    " Escape characters that have special meaning in the :! command.
+    " let url = substitute(a:url, '!\|#\|%', '\\&', 'g')
+
+    silent! execute startcmd url endcmd
+endfunction
+
+" digsby directories
+" if msw...
+command! CdSrc :cd c:\dev\digsby\src
+command! CdExt :cd c:\dev\digsby\ext
+command! CdWxpy :cd c:\dev\digsby\build\msw\wxpy
+command! CdWebKit :cd c:\dev\digsby\build\msw\webkit
+command! CdWx :cd c:\dev\digsby\build\msw\wxWidgets
+command! CdSip :cd c:\dev\digsby\build\msw\sip
+command! CdPython :cd c:\dev\digsby\build\msw\python
+
+" digsby website shortcuts
+command! -nargs=1 Bug :call LaunchBrowser("http://mini/bugs/?act=view&id=<args>")
+command! -nargs=1 Ticket :call LaunchBrowser("http://mini/cgi-bin/ticket/<args>")
+command! -nargs=1 Revision :call LaunchBrowser("http://mini/cgi-bin/changeset/<args>")
+map \b :Bug 
+map \t :Ticket 
+map \r :Revision 
+map \t :FuzzyFinderTextMate<CR>
+
+command! Todo :sp ~/Desktop/TODO.txt
+
+command! Pyflakes :call Pyflakes()
+function! Pyflakes()
+    let tmpfile = tempname()
+    execute "set makeprg=(pyflakes\\ " . % . ")"
+    make
+    cw
+endfunction
+
 " highlight SIP files like C++
 au BufNewFile,BufRead *.sip set filetype=cpp
 
@@ -13,14 +56,12 @@ set nobackup
 set nowritebackup
 set noswapfile
 
-set hls " highlight trailing whitespace
-
 map ,j :e **/
 
 " ,v opens this file
 " ,V reloads it
-map ,v :sp ~/_vimrc<CR><C-W>_
-map <silent> ,V :source ~/_vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
+map ,v :sp ~/vimfiles/.vimrc<CR><C-W>_
+map <silent> ,V :source ~/vimfiles/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
 " ,d deletes a line but leaves a blank
 map ,d ddO<ESC>
@@ -36,8 +77,8 @@ set nocompatible
 
 if has("gui_running")
     " make the default window size a bit bigger
-    set lines=60
-    set columns=90
+"    set lines=60
+"    set columns=90
     colorscheme desert
     set gfn=Consolas:h10:cANSI
 
@@ -113,4 +154,6 @@ set clipboard+=unnamed
 iab wxmain import wx<CR><CR>def main():<CR>a = wx.PySimpleApp()<CR>f = wx.Frame(None, -1, 'Test')<CR><CR>f.Show()<CR>a.MainLoop()<CR><CR>if __name__ == '__main__':<CR>main()<ESC>6ko
 
 iab pymain if __name__ == '__main__':<CR>main()<ESC>
+
+ab #d #define
 
