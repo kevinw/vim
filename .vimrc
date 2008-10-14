@@ -1,3 +1,8 @@
+let digsby='c:\dev\digsby\'
+let g:fuzzy_roots=[digsby.'src', digsby.'ext\src', digsby.'build\msw\wxWidgets\src', digsby.'build\msw\wxWidgets\include']
+let g:fuzzy_ignore='*.pyc;*.pyo'
+let g:fuzzy_match_limit=75 " default 200
+
 " hides file types in directory listings
 let g:netrw_list_hide='^\.svn/$,^\.settings/$,.*\.pyo$,.*\.pyc,.*\.obj'
 
