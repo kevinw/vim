@@ -105,10 +105,6 @@ let python_highlight_all = 1
 
 set autowrite " automatically save files when changing buffers
 
-" tab and shift-tab flip between buffers
-nmap <tab> :bn<cr>
-nmap <s-tab> :bp<cr>
-
 set wildignore+=*.o,*.obj,*.pyc,*.pyo " ignore filetypes for auto complete
 map ,; <esc>A;<esc>
 
