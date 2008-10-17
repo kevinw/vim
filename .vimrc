@@ -1,6 +1,7 @@
 let digsby='c:\dev\digsby\'
-let g:fuzzy_roots=[digsby.'src', digsby.'ext\src', digsby.'build\msw\wxWidgets\src', digsby.'build\msw\wxWidgets\include']
-let g:fuzzy_ignore='*.pyc;*.pyo'
+let pydir=digsby.'build\msw\python\'
+let g:fuzzy_roots=[digsby.'src', digsby.'ext\src', digsby.'build\msw\wxWidgets\src', digsby.'build\msw\wxWidgets\include', pydir.'include', pydir.'Modules', pydir.'Objects', pydir.'Lib', digsby.'build\msw\sip', digsby.'build\msw\wxpy\src']
+let g:fuzzy_ignore='*.pyc;*.pyo;.svn;*.suo;*.vcproj;*.o;*.obj;.git'
 let g:fuzzy_match_limit=75 " default 200
 
 " hides file types in directory listings
@@ -45,6 +46,10 @@ function! Pyflakes()
     make
     cw
 endfunction
+
+
+
+" autocmd BufWritePost *.py :PyflakesSigns
 
 " highlight SIP files like C++
 au BufNewFile,BufRead *.sip set filetype=cpp
@@ -139,6 +144,8 @@ autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
 
 " auto indent after "def foo():<CR>"
 autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+
+
 
 " makes backspace key more powerful.
 set backspace=indent,eol,start
