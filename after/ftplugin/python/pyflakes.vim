@@ -1,6 +1,12 @@
-" pyflakes.vim
+" pyflakes.vim - A script to highlight Python code with warnings from Pyflakes.
 "
-" thanks to matlib.vim for ideas/code on interactive linting
+" Place in your after/ftplugin directory.
+"
+" Maintainer: Kevin Watters <kevin.watters@gmail.com>
+" Version: 0.1
+"
+" Thanks to matlib.vim for ideas/code on interactive linting.
+"
 
 if exists("b:did_pyflakes_plugin")
     finish
@@ -10,6 +16,52 @@ let b:did_pyflakes_plugin = 1
 
 let s:cpo_sav = &cpo
 set cpo-=C
+
+if !exists("b:did_python_init")
+    python << EOF
+import vim
+import compiler
+import sys
+from pyflakes import checker
+from operator import attrgetter
+
+def check(filename):
+    try:
+        tree = compiler.parseFile(filename)
+    except (SyntaxError, IndentationError):
+        value = sys.exc_info()[1]
+        try:
+            lineno, offset, line = value[1][1:]
+        except IndexError:
+            print >> sys.stderr, 'could not compile %r' % (filename,)
+            return 1
+        if line.endswith("\n"):
+            line = line[:-1]
+        print >> sys.stderr, '%s:%d: could not compile' % (filename, lineno)
+        print >> sys.stderr, line
+        print >> sys.stderr, " " * (offset-2), "^"
+        return []
+    else:
+        w = checker.Checker(tree, filename)
+        w.messages.sort(key = attrgetter('lineno'))
+        return w.messages
+
+
+def squo(s):
+    return s.replace('"', r'\"')
+EOF
+    let b:did_python_init = 1
+endif
+
+" return '%s:%s: %s' % (self.filename, self.lineno, self.message % self.message_args)
+
+au BufWinLeave <buffer> call s:ClearPyflakes()
+au BufEnter <buffer> call s:RunPyflakes()
+au InsertLeave <buffer> call s:RunPyflakes()
+
+au CursorHold <buffer> call s:RunPyflakes()
+au CursorHold <buffer> call s:GetPyflakesMessage()
+au CursorHoldI <buffer> call s:RunPyflakes()
 
 if !exists("*s:RunPyflakes")
     function s:RunPyflakes()
@@ -25,10 +77,16 @@ if !exists("*s:RunPyflakes")
         endif
         
         let b:matched = []
-
-
+        python << EOF
+for w in check(vim.current.buffer.name):
+    vim.command('let s:matchDict = {}')
+    vim.command("let s:matchDict['lineNum'] = " + str(w.lineno))
+    vim.command("let s:matchDict['message'] = \"%s\"" % squo(w.message % w.message_args))
+    vim.command(r"let s:matchDict['mID'] = matchadd('PyFlakes', '\%'." + str(w.lineno) + r".'l'.'\%>1c')")
+    vim.command("call add(b:matched, s:matchDict)")
+EOF
         let b:cleared = 0
-    end
+    endfunction
 end
 
 if !exists("*s:GetPyflakesMessage")

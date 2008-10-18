@@ -1,3 +1,4 @@
+filetype plugin on
 let digsby='c:\dev\digsby\'
 let pydir=digsby.'build\msw\python\'
 let g:fuzzy_roots=[digsby.'src', digsby.'ext\src', digsby.'build\msw\wxWidgets\src', digsby.'build\msw\wxWidgets\include', pydir.'include', pydir.'Modules', pydir.'Objects', pydir.'Lib', digsby.'build\msw\sip', digsby.'build\msw\wxpy\src']
@@ -38,18 +39,6 @@ map \r :Revision
 map \t :FuzzyFinderTextMate<CR>
 
 command! Todo :sp ~/Desktop/TODO.txt
-
-command! Pyflakes :call Pyflakes()
-function! Pyflakes()
-    let tmpfile = tempname()
-    execute "set makeprg=(pyflakes\\ " . % . ")"
-    make
-    cw
-endfunction
-
-
-
-" autocmd BufWritePost *.py :PyflakesSigns
 
 " highlight SIP files like C++
 au BufNewFile,BufRead *.sip set filetype=cpp
