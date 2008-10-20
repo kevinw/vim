@@ -1,3 +1,15 @@
+let g:fuzzy_roots = ['~/src/digsby/src']
+
+function! SetFuzzyOptions()
+    if exists("g:FuzzyFinderOptions") && exists("g:FuzzyFinderOptions.TextMate")
+        let g:FuzzyFinderOptions.TextMate.matching_limit = 50
+    endif
+endfunction
+
+au VimEnter * call SetFuzzyOptions()
+
+command CdFile :cd %:h " change directories to the current file's directory
+
 " hides file types in directory listings
 let g:netrw_list_hide='^\.svn/$,^\.settings/$,.*\.pyo$,.*\.pyc,.*\.obj'
 
@@ -45,7 +57,7 @@ endfunction
 au BufNewFile,BufRead *.sip set filetype=cpp
 
 " automatically jump to the last position in a file
-au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
+" au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
 
 " let VCSCommandGitExec = "c:\\program files\\git\\bin\\git.exe"
 
@@ -80,7 +92,8 @@ if has("gui_running")
 "    set lines=60
 "    set columns=90
     colorscheme desert
-    set gfn=Consolas:h10:cANSI
+"    set gfn=Consolas:h10:cANSI
+    set gfn=Monaco:h15:a
 
     set guioptions-=m "remove the menu bar
     set guioptions-=T "remove the tool bar
@@ -101,7 +114,6 @@ nmap <s-tab> :bp<cr>
 
 set wildignore+=*.o,*.obj,*.pyc,*.pyo " ignore filetypes for auto complete
 map ,; <esc>A;<esc>
-
 
 syntax on
 
@@ -149,6 +161,8 @@ set wildmenu
 
 " share clipboard with windows clipboard
 set clipboard+=unnamed
+
+set showmatch " highlight matching parens
 
 " wxPython main stub
 iab wxmain import wx<CR><CR>def main():<CR>a = wx.PySimpleApp()<CR>f = wx.Frame(None, -1, 'Test')<CR><CR>f.Show()<CR>a.MainLoop()<CR><CR>if __name__ == '__main__':<CR>main()<ESC>6ko
