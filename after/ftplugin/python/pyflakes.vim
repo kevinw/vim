@@ -9,10 +9,9 @@
 
 if exists("b:did_pyflakes_plugin")
     finish " only load once
+else
+    let b:did_pyflakes_plugin = 1
 end
-
-let b:did_pyflakes_plugin = 1
-
 
 let s:cpo_sav = &cpo
 set cpo-=C
@@ -42,7 +41,7 @@ def check(buffer):
 
     try:
         tree = ast.parse(contents, filename)
-    except:
+    except (SyntaxError, IndentationError):
         value = sys.exc_info()[1]
         try:
             lineno, offset, line = value[1][1:]
@@ -71,16 +70,18 @@ au CursorHold <buffer> call s:RunPyflakes()
 au CursorHold <buffer> call s:GetPyflakesMessage()
 au CursorMoved <buffer> call s:GetPyflakesMessage()
 au CursorHoldI <buffer> call s:RunPyflakes()
-"
+
 " WideMsg() prints [long] message up to (&columns-1) length
 " guaranteed without "Press Enter" prompt.
-function! WideMsg(msg)
-  let x=&ruler | let y=&showcmd
-  set noruler noshowcmd
-  redraw
-  echo a:msg
-  let &ruler=x | let &showcmd=y
-endfun
+if !exists("*s:WideMsg")
+    function s:WideMsg(msg)
+        let x=&ruler | let y=&showcmd
+        set noruler noshowcmd
+        redraw
+        echo a:msg
+        let &ruler=x | let &showcmd=y
+    endfun
+endif
 
 if !exists("*s:RunPyflakes")
     function s:RunPyflakes()
@@ -129,7 +130,7 @@ if !exists("*s:GetPyflakesMessage")
         " it to the console
         if has_key(b:matchedlines, s:cursorPos[1])
             let s:pyflakesMatch = get(b:matchedlines, s:cursorPos[1])
-            call WideMsg(s:pyflakesMatch['message'])
+            call s:WideMsg(s:pyflakesMatch['message'])
             let b:showing_message = 1
             return
         endif
