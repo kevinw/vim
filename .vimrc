@@ -1,4 +1,7 @@
+" let plugins for specific filetypes load
+filetype on
 filetype plugin on
+
 let digsby='c:\dev\digsby\'
 let pydir=digsby.'build\msw\python\'
 let g:fuzzy_roots=[digsby.'src', digsby.'ext\src', digsby.'build\msw\wxWidgets\src', digsby.'build\msw\wxWidgets\include', pydir.'include', pydir.'Modules', pydir.'Objects', pydir.'Lib', digsby.'build\msw\sip', digsby.'build\msw\wxpy\src']
