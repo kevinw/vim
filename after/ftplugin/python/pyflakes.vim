@@ -20,14 +20,19 @@ set cpo-=C
 if !exists("b:did_python_init")
     python << EOF
 import vim
-import compiler
+import os.path
 import sys
-from pyflakes import checker
+from pyflakes import checker, ast
 from operator import attrgetter
 
 def check(filename):
     try:
-        tree = compiler.parseFile(filename)
+        contents = open(filename, 'U').read()
+    except IOError:
+        return
+
+    try:
+        tree = ast.parse(contents, filename)
     except (SyntaxError, IndentationError):
         value = sys.exc_info()[1]
         try:
@@ -82,7 +87,16 @@ for w in check(vim.current.buffer.name):
     vim.command('let s:matchDict = {}')
     vim.command("let s:matchDict['lineNum'] = " + str(w.lineno))
     vim.command("let s:matchDict['message'] = \"%s\"" % squo(w.message % w.message_args))
-    vim.command(r"let s:matchDict['mID'] = matchadd('PyFlakes', '\%'." + str(w.lineno) + r".'l'.'\%>1c')")
+
+
+    if w.col is None:
+        # without column information, just highlight the whole line
+        # (minus the newline)
+        vim.command(r"let s:mID = matchadd('PyFlakes', '\%" + str(w.lineno) + r"l\n\@!')")
+    else:
+        # with a column number, highlight the first keyword there
+        vim.command(r"let s:mID = matchadd('PyFlakes', '^\%" + str(w.lineno) + r"l\_.\{-}\zs\k\+\k\@!\%>" + str(w.col) + r"c')")
+
     vim.command("call add(b:matched, s:matchDict)")
 EOF
         let b:cleared = 0
