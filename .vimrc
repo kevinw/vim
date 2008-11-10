@@ -6,6 +6,8 @@ let g:fuzzy_ignore='*.pyc;*.pyo;.svn;*.suo;*.vcproj;*.o;*.obj;.git'
 let g:fuzzy_match_limit=75 " default 200
 let g:fuzzy_roots = ['~/src/digsby/src']
 
+command KillPydevComments :%s/\s*#@UnresolvedImport\s*//g
+
 function! SetFuzzyOptions()
     if exists("g:FuzzyFinderOptions") && exists("g:FuzzyFinderOptions.TextMate")
         let g:FuzzyFinderOptions.TextMate.matching_limit = 50
@@ -98,6 +100,7 @@ endif " gui-running
 
 set showmatch   "show matching brackets
 set ignorecase  "case insensitive matching
+set smartcase   " match case sensitive if there are uppercase letters
 set textwidth=0 "don't wrap text
 set scrolloff=5 "keep context while scrolling
 
