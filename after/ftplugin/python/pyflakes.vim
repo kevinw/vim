@@ -13,6 +13,7 @@ end
 
 let b:did_pyflakes_plugin = 1
 
+
 let s:cpo_sav = &cpo
 set cpo-=C
 
@@ -21,6 +22,11 @@ if !exists("b:did_python_init")
 import vim
 import os.path
 import sys
+
+# get the directory this script is in: the pyflakes python module should be installed there.
+scriptdir = os.path.join(os.path.dirname(vim.eval('expand("<sfile>")')), 'pyflakes')
+sys.path.insert(0, scriptdir)
+
 from pyflakes import checker, ast, messages
 from operator import attrgetter
 
