@@ -99,6 +99,9 @@ if has("gui_running")
 
     set guioptions-=m "remove the menu bar
     set guioptions-=T "remove the tool bar
+
+    set guioptions-=L " never show scrollbars
+    set guioptions-=R
 endif " gui-running
 
 set showmatch   "show matching brackets
