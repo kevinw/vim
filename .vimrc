@@ -1,6 +1,5 @@
 " let plugins for specific filetypes load
-filetype on
-filetype plugin on
+filetype plugin indent on
 
 let digsby='c:\dev\digsby\'
 let pydir=digsby.'build\msw\python\'
@@ -8,6 +7,8 @@ let g:fuzzy_roots=[digsby.'src', digsby.'ext\src', digsby.'build\msw\wxWidgets\s
 let g:fuzzy_ignore='*.pyc;*.pyo;.svn;*.suo;*.vcproj;*.o;*.obj;.git'
 let g:fuzzy_match_limit=75 " default 200
 let g:fuzzy_roots = ['~/src/digsby/src']
+
+let g:pyflakes_builtins = ['sentinel', '_']
 
 command KillPydevComments :%s/\s*#@UnresolvedImport\s*//g
 
@@ -104,6 +105,11 @@ if has("gui_running")
     set guioptions-=R
 endif " gui-running
 
+" In many terminal emulators the mouse works just fine, thus enable it.
+if has('mouse')
+  set mouse=a
+endif
+
 set showmatch   "show matching brackets
 set ignorecase  "case insensitive matching
 set smartcase   " match case sensitive if there are uppercase letters
@@ -170,8 +176,51 @@ set showmatch " highlight matching parens
 
 " wxPython main stub
 iab wxmain import wx<CR><CR>def main():<CR>a = wx.PySimpleApp()<CR>f = wx.Frame(None, -1, 'Test')<CR><CR>f.Show()<CR>a.MainLoop()<CR><CR>if __name__ == '__main__':<CR>main()<ESC>6ko
-
 iab pymain if __name__ == '__main__':<CR>main()<ESC>
 
 ab #d #define
 
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+" Only define it when not defined already.
+if !exists(":DiffOrig")
+  command DiffOrig vert new | set bt=nofile | r # | 0d_ | diffthis
+		  \ | wincmd p | diffthis
+endif
+
+noremap <silent> <leader>g :call MyGrep(expand("%:h"))<cr>
+" noremap <silent> <leader>G :call MyGrep("lib/ t/ aggtests/ deps_patched/")<cr>
+" noremap <silent> <leader>f :call MyGrep("lib/", expand('<cword>'))<cr>
+
+function! MyGrep(paths, ...)
+    let pattern = a:0 ? a:1 : input("Enter pattern to search for: ")
+
+    if !strlen(pattern)
+        return
+    endif
+
+    let command = 'ack "' . pattern . '" ' . a:paths .' -l'
+    let bufname = bufname("%")
+    let result  = filter(split( system(command), "\n" ), 'v:val != "'.bufname.'"')
+    let lines   = []
+    if !empty(result)
+        if 1 == len(result)
+            let file  = 1
+        else
+
+            " grab all the filenames, skipping the current file
+            let lines = [ 'Choose a file to edit:' ]
+                \ + map(range(1, len(result)), 'v:val .": ". result[v:val - 1]')
+            let file  = inputlist(lines)
+        end
+        if
+            \ ( file > 0 && len(result) > 1 && file < len(lines) )
+            \ ||
+            \ ( 1 == len(result) && 1 == file )
+            execute "edit +1 " . result[ file - 1 ]
+            execute "/\\v"  . pattern
+        endif
+    else
+        echomsg("No files found matching pattern:  " . pattern)
+    endif
+endfunction
