@@ -1,3 +1,6 @@
+" custom shortcuts use "," not "\" -- it's easier to reach!
+let mapleader = ","
+
 " let plugins for specific filetypes load
 filetype plugin indent on
 
@@ -50,10 +53,10 @@ command! CdPython :cd c:\dev\digsby\build\msw\python
 command! -nargs=1 Bug :call LaunchBrowser("http://mini/bugs/?act=view&id=<args>")
 command! -nargs=1 Ticket :call LaunchBrowser("http://mini/cgi-bin/ticket/<args>")
 command! -nargs=1 Revision :call LaunchBrowser("http://mini/cgi-bin/changeset/<args>")
-map \b :Bug 
-map \t :Ticket 
-map \r :Revision 
-map \t :FuzzyFinderTextMate<CR>
+map <Leader>b :Bug 
+map <Leader>t :Ticket 
+map <Leader>r :Revision 
+map <Leader>t :FuzzyFinderTextMate<CR>
 
 command! Todo :sp ~/Desktop/TODO.txt
 
@@ -72,7 +75,7 @@ set nobackup
 set nowritebackup
 set noswapfile
 
-map ,j :e **/
+map <Leader>j :e **/
 
 " ,v opens this file
 " ,V reloads it
