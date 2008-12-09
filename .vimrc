@@ -191,39 +191,13 @@ if !exists(":DiffOrig")
 		  \ | wincmd p | diffthis
 endif
 
-noremap <silent> <leader>g :call MyGrep(expand("%:h"))<cr>
-" noremap <silent> <leader>G :call MyGrep("lib/ t/ aggtests/ deps_patched/")<cr>
-" noremap <silent> <leader>f :call MyGrep("lib/", expand('<cword>'))<cr>
-
-function! MyGrep(paths, ...)
-    let pattern = a:0 ? a:1 : input("Enter pattern to search for: ")
-
-    if !strlen(pattern)
-        return
-    endif
-
-    let command = 'ack "' . pattern . '" ' . a:paths .' -l'
-    let bufname = bufname("%")
-    let result  = filter(split( system(command), "\n" ), 'v:val != "'.bufname.'"')
-    let lines   = []
-    if !empty(result)
-        if 1 == len(result)
-            let file  = 1
-        else
-
-            " grab all the filenames, skipping the current file
-            let lines = [ 'Choose a file to edit:' ]
-                \ + map(range(1, len(result)), 'v:val .": ". result[v:val - 1]')
-            let file  = inputlist(lines)
-        end
-        if
-            \ ( file > 0 && len(result) > 1 && file < len(lines) )
-            \ ||
-            \ ( 1 == len(result) && 1 == file )
-            execute "edit +1 " . result[ file - 1 ]
-            execute "/\\v"  . pattern
-        endif
-    else
-        echomsg("No files found matching pattern:  " . pattern)
-    endif
+function! Ack(args)
+    let grepprg_bak=&grepprg
+    set grepprg=ack\ -H\ --nocolor\ --nogroup
+    execute "silent! grep " . a:args
+    botright copen
+    let &grepprg=grepprg_bak
 endfunction
+
+command! -nargs=* -complete=file Ack call Ack(<q-args>)
+
