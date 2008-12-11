@@ -177,7 +177,7 @@ set clipboard+=unnamed
 
 set showmatch " highlight matching parens
 
-" wxPython main stub
+" wxPython main sub
 iab wxmain import wx<CR><CR>def main():<CR>a = wx.PySimpleApp()<CR>f = wx.Frame(None, -1, 'Test')<CR><CR>f.Show()<CR>a.MainLoop()<CR><CR>if __name__ == '__main__':<CR>main()<ESC>6ko
 iab pymain if __name__ == '__main__':<CR>main()<ESC>
 
@@ -201,3 +201,5 @@ endfunction
 
 command! -nargs=* -complete=file Ack call Ack(<q-args>)
 
+" <Leader>s replaces the word at the cursor
+:nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
