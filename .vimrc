@@ -15,6 +15,9 @@ let g:pyflakes_builtins = ['sentinel', '_']
 
 command KillPydevComments :%s/\s*#@UnresolvedImport\s*//g
 
+" for mistyping :w as :W
+command W :w
+
 function! SetFuzzyOptions()
     if exists("g:FuzzyFinderOptions") && exists("g:FuzzyFinderOptions.TextMate")
         let g:FuzzyFinderOptions.TextMate.matching_limit = 50
@@ -38,16 +41,6 @@ function! LaunchBrowser(url)
 
     silent! execute startcmd url endcmd
 endfunction
-
-" digsby directories
-" if msw...
-command! CdSrc :cd c:\dev\digsby\src
-command! CdExt :cd c:\dev\digsby\ext
-command! CdWxpy :cd c:\dev\digsby\build\msw\wxpy
-command! CdWebKit :cd c:\dev\digsby\build\msw\webkit
-command! CdWx :cd c:\dev\digsby\build\msw\wxWidgets
-command! CdSip :cd c:\dev\digsby\build\msw\sip
-command! CdPython :cd c:\dev\digsby\build\msw\python
 
 " digsby website shortcuts
 command! -nargs=1 Bug :call LaunchBrowser("http://mini/bugs/?act=view&id=<args>")
@@ -201,5 +194,13 @@ endfunction
 
 command! -nargs=* -complete=file Ack call Ack(<q-args>)
 
+:nnoremap <Leader>g :Ack <C-r><C-w>
+
 " <Leader>s replaces the word at the cursor
 :nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
+
+" Use CTRL-S for saving, also in Insert mode
+noremap <C-S> :update<CR>
+vnoremap <C-S> <C-C>:update<CR>
+inoremap <C-S> <C-O>:update<CR>
+
