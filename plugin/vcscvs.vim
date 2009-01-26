@@ -81,6 +81,10 @@
 
 " Section: Plugin header {{{1
 
+if exists('VCSCommandDisableAll')
+	finish
+endif
+
 if v:version < 700
 	echohl WarningMsg|echomsg 'VCSCommand requires at least VIM 7.0'|echohl None
 	finish
@@ -403,14 +407,14 @@ com! CVSWatchers call s:CVSWatchers()
 
 let s:cvsExtensionMappings = {}
 let mappingInfo = [
-			\['CVSEdit', 'CVSEdit', 'ce'],
-			\['CVSEditors', 'CVSEditors', 'cE'],
-			\['CVSUnedit', 'CVSUnedit', 'ct'],
-			\['CVSWatchers', 'CVSWatchers', 'cwv'],
-			\['CVSWatchAdd', 'CVSWatch add', 'cwa'],
-			\['CVSWatchOff', 'CVSWatch off', 'cwf'],
-			\['CVSWatchOn', 'CVSWatch on', 'cwn'],
-			\['CVSWatchRemove', 'CVSWatch remove', 'cwr']
+			\['CVSEdit', 'CVSEdit', 'e'],
+			\['CVSEditors', 'CVSEditors', 'E'],
+			\['CVSUnedit', 'CVSUnedit', 't'],
+			\['CVSWatchers', 'CVSWatchers', 'wv'],
+			\['CVSWatchAdd', 'CVSWatch add', 'wa'],
+			\['CVSWatchOff', 'CVSWatch off', 'wf'],
+			\['CVSWatchOn', 'CVSWatch on', 'wn'],
+			\['CVSWatchRemove', 'CVSWatch remove', 'wr']
 			\]
 
 for [pluginName, commandText, shortCut] in mappingInfo
@@ -421,17 +425,15 @@ for [pluginName, commandText, shortCut] in mappingInfo
 endfor
 
 " Section: Menu items {{{1
-if has('gui')
-    silent! aunmenu Plugin.VCS.CVS
-    amenu <silent> &Plugin.VCS.CVS.&Edit       <Plug>CVSEdit
-    amenu <silent> &Plugin.VCS.CVS.Ed&itors    <Plug>CVSEditors
-    amenu <silent> &Plugin.VCS.CVS.Unedi&t     <Plug>CVSUnedit
-    amenu <silent> &Plugin.VCS.CVS.&Watchers   <Plug>CVSWatchers
-    amenu <silent> &Plugin.VCS.CVS.WatchAdd    <Plug>CVSWatchAdd
-    amenu <silent> &Plugin.VCS.CVS.WatchOn     <Plug>CVSWatchOn
-    amenu <silent> &Plugin.VCS.CVS.WatchOff    <Plug>CVSWatchOff
-    amenu <silent> &Plugin.VCS.CVS.WatchRemove <Plug>CVSWatchRemove
-endif
+silent! aunmenu Plugin.VCS.CVS
+amenu <silent> &Plugin.VCS.CVS.&Edit       <Plug>CVSEdit
+amenu <silent> &Plugin.VCS.CVS.Ed&itors    <Plug>CVSEditors
+amenu <silent> &Plugin.VCS.CVS.Unedi&t     <Plug>CVSUnedit
+amenu <silent> &Plugin.VCS.CVS.&Watchers   <Plug>CVSWatchers
+amenu <silent> &Plugin.VCS.CVS.WatchAdd    <Plug>CVSWatchAdd
+amenu <silent> &Plugin.VCS.CVS.WatchOn     <Plug>CVSWatchOn
+amenu <silent> &Plugin.VCS.CVS.WatchOff    <Plug>CVSWatchOff
+amenu <silent> &Plugin.VCS.CVS.WatchRemove <Plug>CVSWatchRemove
 
 " Section: Plugin Registration {{{1
 call VCSCommandRegisterModule('CVS', expand('<sfile>'), s:cvsFunctions, s:cvsExtensionMappings)
