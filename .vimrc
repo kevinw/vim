@@ -15,6 +15,9 @@ let g:pyflakes_builtins = ['sentinel', '_']
 
 command KillPydevComments :%s/\s*#@UnresolvedImport\s*//g
 
+" make Q format text instead of entering Ex mode
+map Q gq
+
 " for mistyping :w as :W
 command W :w
 
@@ -170,11 +173,7 @@ set clipboard+=unnamed
 
 set showmatch " highlight matching parens
 
-" wxPython main sub
-iab wxmain import wx<CR><CR>def main():<CR>a = wx.PySimpleApp()<CR>f = wx.Frame(None, -1, 'Test')<CR><CR>f.Show()<CR>a.MainLoop()<CR><CR>if __name__ == '__main__':<CR>main()<ESC>6ko
-iab pymain if __name__ == '__main__':<CR>main()<ESC>
 
-ab #d #define
 
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
