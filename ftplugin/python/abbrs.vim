@@ -17,7 +17,6 @@ imap <buffer> __r __repr__
 imap <buffer> __s __str__
 imap <buffer> __u __unicode__
 imap <buffer> __h __hash__
-imap <buffer> __i __init__
 
 iab <buffer> wxmain import wx<CR><CR>def main():<CR>a = wx.PySimpleApp()<CR>f = wx.Frame(None, -1, 'Test')<CR><CR>f.Show()<CR>a.MainLoop()<CR><CR>if __name__ == '__main__':<CR>main()<ESC>6ko
 iab <buffer> pymain if __name__ == '__main__':<CR>main()
