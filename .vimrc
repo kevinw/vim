@@ -1,3 +1,6 @@
+" don't bother with vi compatibility
+set nocompatible
+
 " custom shortcuts use "," not "\" -- it's easier to reach!
 let mapleader = ","
 
@@ -78,17 +81,8 @@ map <Leader>j :e **/
 map ,v :sp ~/vimfiles/.vimrc<CR><C-W>_
 map <silent> ,V :source ~/vimfiles/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
-" ,d deletes a line but leaves a blank
-map ,d ddO<ESC>
-
-" ,b goes back to previous file
-map ,b :e#<CR>
-
 " check syntax more
 autocmd BufEnter * :syntax sync fromstart
-
-" don't bother with vi compatibility
-set nocompatible
 
 if has("gui_running")
     " make the default window size a bit bigger
