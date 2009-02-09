@@ -52,10 +52,7 @@ endfunction
 command! -nargs=1 Bug :call LaunchBrowser("http://mini/bugs/?act=view&id=<args>")
 command! -nargs=1 Ticket :call LaunchBrowser("http://mini/cgi-bin/ticket/<args>")
 command! -nargs=1 Revision :call LaunchBrowser("http://mini/cgi-bin/changeset/<args>")
-map <Leader>b :Bug 
-map <Leader>t :Ticket 
-map <Leader>r :Revision 
-map <Leader>t :FuzzyFinderTextMate<CR>
+
 
 command! Todo :sp ~/Desktop/TODO.txt
 
@@ -73,13 +70,6 @@ set nowrap " no wordwrap
 set nobackup
 set nowritebackup
 set noswapfile
-
-map <Leader>j :e **/
-
-" ,v opens this file
-" ,V reloads it
-map ,v :sp ~/vimfiles/.vimrc<CR><C-W>_
-map <silent> ,V :source ~/vimfiles/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
 " check syntax more
 autocmd BufEnter * :syntax sync fromstart
@@ -187,13 +177,33 @@ endfunction
 
 command! -nargs=* -complete=file Ack call Ack(<q-args>)
 
-:nnoremap <Leader>g :Ack <C-r><C-w>
-
-" <Leader>s replaces the word at the cursor
-:nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
-
 " Use CTRL-S for saving, also in Insert mode
 noremap <C-S> :update<CR>
 vnoremap <C-S> <C-C>:update<CR>
 inoremap <C-S> <C-O>:update<CR>
+
+" <Leader>
+
+map <Leader>b :Bug 
+map <Leader>t :Ticket 
+map <Leader>r :Revision 
+map <Leader>t :FuzzyFinderTextMate<CR>
+
+" maximize the window
+map <Leader>m :simalt ~x<CR>
+
+" select the last thing pasted
+map <Leader>v `[v`]                     
+
+"
+" <Leader>V opens this file
+map <Leader>V :sp ~/vimfiles/.vimrc<CR><C-W>_
+
+" Jump to any file in any subdirectory under the current
+map <Leader>j :e **/
+
+:nnoremap <Leader>g :Ack <C-r><C-w>
+
+" <Leader>s replaces the word at the cursor
+:nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
 
