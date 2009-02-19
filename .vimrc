@@ -167,6 +167,7 @@ if !exists(":DiffOrig")
 		  \ | wincmd p | diffthis
 endif
 
+" Use the ack.pl script on PATH to grep intelligently
 function! Ack(args)
     let grepprg_bak=&grepprg
     set grepprg=ack\ -H\ --nocolor\ --nogroup
@@ -207,3 +208,8 @@ map <Leader>j :e **/
 " <Leader>s replaces the word at the cursor
 :nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
 
+" swap this word with the next
+" noremap <silent> <Leader>xn :s/\v(<\k*%#\k*>)(\_.{-})(<\k+>)/\3\2\1/<CR>
+noremap <silent> <leader>xp "_yiw:s/\(\%#\w\+\)\(\W\+\)\(\w\+\)/\3\2\1/<cr><c-o>
+" swap this word with the previous
+"noremap <silent> <Leader>xp :s/\v(<\k+>)(.{-})(<\k*%#\k*>)/\3\2\1/<CR>
