@@ -14,7 +14,7 @@ let g:fuzzy_ignore='*.pyc;*.pyo;.svn;*.suo;*.vcproj;*.o;*.obj;.git'
 let g:fuzzy_match_limit=75 " default 200
 let g:fuzzy_roots = ['~/src/digsby/src']
 
-let g:pyflakes_builtins = ['sentinel', '_']
+let g:pyflakes_builtins = ['sentinel', 'Sentinel', '_']
 
 command KillPydevComments :%s/\s*#@UnresolvedImport\s*//g
 
@@ -23,14 +23,6 @@ map Q gq
 
 " for mistyping :w as :W
 command W :w
-
-function! SetFuzzyOptions()
-    if exists("g:FuzzyFinderOptions") && exists("g:FuzzyFinderOptions.TextMate")
-        let g:FuzzyFinderOptions.TextMate.matching_limit = 50
-    endif
-endfunction
-
-au VimEnter * call SetFuzzyOptions()
 
 command CdFile :cd %:h " change directories to the current file's directory
 
@@ -52,7 +44,6 @@ endfunction
 command! -nargs=1 Bug :call LaunchBrowser("http://mini/bugs/?act=view&id=<args>")
 command! -nargs=1 Ticket :call LaunchBrowser("http://mini/cgi-bin/ticket/<args>")
 command! -nargs=1 Revision :call LaunchBrowser("http://mini/cgi-bin/changeset/<args>")
-
 
 command! Todo :sp ~/Desktop/TODO.txt
 
@@ -186,9 +177,7 @@ inoremap <C-S> <C-O>:update<CR>
 " <Leader>
 
 map <Leader>b :Bug 
-map <Leader>t :Ticket 
 map <Leader>r :Revision 
-map <Leader>t :FuzzyFinderTextMate<CR>
 
 " maximize the window
 map <Leader>m :simalt ~x<CR>
