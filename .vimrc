@@ -16,6 +16,7 @@ let g:fuzzy_roots = ['~/src/digsby/src']
 
 let g:pyflakes_builtins = ['sentinel', 'Sentinel', '_']
 
+
 command KillPydevComments :%s/\s*#@UnresolvedImport\s*//g
 
 " make Q format text instead of entering Ex mode
@@ -175,16 +176,19 @@ vnoremap <C-S> <C-C>:update<CR>
 inoremap <C-S> <C-O>:update<CR>
 
 " <Leader>
+map <Leader>to :TracBrowser<CR>
+map <Leader>tl :TracLog<CR>
 
 map <Leader>b :Bug 
 map <Leader>r :Revision 
 
 " maximize the window
-map <Leader>m :simalt ~x<CR>
+if (has("win32") || has("win64"))
+    map <Leader>m :simalt ~x<CR>
+endif
 
 " select the last thing pasted
 map <Leader>v `[v`]                     
-
 "
 " <Leader>V opens this file
 map <Leader>V :sp ~/vimfiles/.vimrc<CR><C-W>_
@@ -202,3 +206,15 @@ map <Leader>j :e **/
 noremap <silent> <leader>xp "_yiw:s/\(\%#\w\+\)\(\W\+\)\(\w\+\)/\3\2\1/<cr><c-o>
 " swap this word with the previous
 "noremap <silent> <Leader>xp :s/\v(<\k+>)(.{-})(<\k*%#\k*>)/\3\2\1/<CR>
+"
+
+" <Leader>a selects whole buffer
+map <Leader>a ggVG
+
+" highlight spelling errors with a bright orange curly line
+if has("gui_running")
+    highlight SpellBad term=underline gui=undercurl guisp=Orange
+endif
+
+:nnoremap <Leader>q :cn<CR>
+:nnoremap <Leader>Q :cN<CR>
