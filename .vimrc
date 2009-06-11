@@ -218,3 +218,7 @@ endif
 
 :nnoremap <Leader>q :cn<CR>
 :nnoremap <Leader>Q :cN<CR>
+
+" leader P copies full file path to clipboard
+map <Leader>p :let @+=expand("%:p")<CR>:echo "copied" expand("%:p")<CR>
+
