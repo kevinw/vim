@@ -16,7 +16,6 @@ let g:fuzzy_roots = ['~/src/digsby/src']
 
 let g:pyflakes_builtins = ['sentinel', 'Sentinel', '_']
 
-
 command KillPydevComments :%s/\s*#@UnresolvedImport\s*//g
 
 " make Q format text instead of entering Ex mode
@@ -96,7 +95,6 @@ let python_highlight_all = 1
 set autowrite " automatically save files when changing buffers
 
 set wildignore+=*.o,*.obj,*.pyc,*.pyo " ignore filetypes for auto complete
-map ,; <esc>A;<esc>
 
 syntax on
 
@@ -129,8 +127,6 @@ autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
 
 " auto indent after "def foo():<CR>"
 autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class,with
-
-
 
 " makes backspace key more powerful.
 set backspace=indent,eol,start
@@ -175,27 +171,32 @@ noremap <C-S> :update<CR>
 vnoremap <C-S> <C-C>:update<CR>
 inoremap <C-S> <C-O>:update<CR>
 
-" <Leader>
+" <Leader> commands
+
+" open current buffer in trac browser
 map <Leader>to :TracBrowser<CR>
+
+" open trac revision log for current buffer
 map <Leader>tl :TracLog<CR>
 
 map <Leader>b :Bug 
 map <Leader>r :Revision 
+
+" add a missing semicolon to the end of this line
+map <Leader>; <ESC>A;<ESC>
 
 " maximize the window
 if (has("win32") || has("win64"))
     map <Leader>m :simalt ~x<CR>
 endif
 
-" select the last thing pasted
-map <Leader>v `[v`]                     
-"
-" <Leader>V opens this file
+" <Leader>V opens this file (.vimrc)
 map <Leader>V :sp ~/vimfiles/.vimrc<CR><C-W>_
 
 " Jump to any file in any subdirectory under the current
 map <Leader>j :e **/
 
+" Ack (grep) for the word under the cursor. 
 :nnoremap <Leader>g :Ack <C-r><C-w>
 
 " <Leader>s replaces the word at the cursor
@@ -204,9 +205,9 @@ map <Leader>j :e **/
 " swap this word with the next
 " noremap <silent> <Leader>xn :s/\v(<\k*%#\k*>)(\_.{-})(<\k+>)/\3\2\1/<CR>
 noremap <silent> <leader>xp "_yiw:s/\(\%#\w\+\)\(\W\+\)\(\w\+\)/\3\2\1/<cr><c-o>
+
 " swap this word with the previous
 "noremap <silent> <Leader>xp :s/\v(<\k+>)(.{-})(<\k*%#\k*>)/\3\2\1/<CR>
-"
 
 " <Leader>a selects whole buffer
 map <Leader>a ggVG
