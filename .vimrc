@@ -223,3 +223,6 @@ endif
 " leader P copies full file path to clipboard
 map <Leader>p :let @+=expand("%:p")<CR>:echo "copied" expand("%:p")<CR>
 
+" format JSON nicely (via python's pprint)
+command JSONPrettify :python import vim, pprint; b=vim.current.buffer; b[:] = pprint.pformat(eval('\n'.join(b[:]))).split('\n')
+
