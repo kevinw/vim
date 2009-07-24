@@ -14,7 +14,7 @@ let g:fuzzy_ignore='*.pyc;*.pyo;.svn;*.suo;*.vcproj;*.o;*.obj;.git'
 let g:fuzzy_match_limit=75 " default 200
 let g:fuzzy_roots = ['~/src/digsby/src']
 
-let g:pyflakes_builtins = ['sentinel', 'Sentinel', '_']
+let g:pyflakes_builtins = ['sentinel', 'Sentinel', '_', 'Null']
 
 command KillPydevComments :%s/\s*#@UnresolvedImport\s*//g
 
