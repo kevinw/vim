@@ -94,7 +94,7 @@ let python_highlight_all = 1
 
 set autowrite " automatically save files when changing buffers
 
-set wildignore+=*.o,*.obj,*.pyc,*.pyo " ignore filetypes for auto complete
+set wildignore+=*.lib,*.dll,*.exe,*.o,*.obj,*.pyc,*.pyo,*.png,*.gif,*.jpg,*.jpeg,*.bmp,*.tiff " ignore filetypes for auto complete
 
 syntax on
 
