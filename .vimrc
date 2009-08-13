@@ -49,6 +49,7 @@ command! Todo :sp ~/Desktop/TODO.txt
 
 " highlight SIP files like C++
 au BufNewFile,BufRead *.sip set filetype=cpp
+au BufNewFile,BufRead *.tenjin set filetype=html
 
 " automatically jump to the last position in a file
 " au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
@@ -69,7 +70,7 @@ if has("gui_running")
     " make the default window size a bit bigger
 "    set lines=60
 "    set columns=90
-    colorscheme desert
+    colorscheme wombat
     set gfn=Monaco:h15:a,Consolas:h10:cANSI
 
     set guioptions-=m "remove the menu bar
