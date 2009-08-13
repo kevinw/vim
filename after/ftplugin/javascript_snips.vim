@@ -36,3 +36,7 @@ exe 'Snipp timeout setTimeout(function() {${3}}${2}, ${1:10};'
 exe "Snipp get getElementsBy${1:TagName}('${2}')${3}"
 " Get Element
 exe "Snipp gett getElementBy${1:Id}('${2}')${3}"
+" console.log
+exe "Snipp log console.log('${1}');${2}"
+" jquery
+exe "Snipp each $.each(${1:seq}, function (i, ${2:item}) {\n    ${3}\n});"

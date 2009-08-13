@@ -13,7 +13,7 @@ exe "Snipp cl class ${1:ClassName}(${2:object}):\n\t\"\"\"${3:docstring for $1}\
 " New Function
 exe "Snipp def def ${1:fname}(${2:`indent('.') ? 'self' : ''`}):\n\t\"\"\"${3:docstring for $1}\"\"\"\n\t${4:pass}"
 " New Method
-exe "Snipp defs def ${1:mname}(self, ${2:arg})):\n\t${3:pass}"
+exe "Snipp defs def ${1:mname}(self, ${2:arg}):\n\t${3:pass}"
 " New Property
 exe "Snipp property def ${1:foo}():\n\tdoc = \"${2:The $1 property.}\"\n\tdef fget(self):\n\t\t\t${3:return self._$1}\n\tdef fset(self, value):\n\t\t"
 \."${4:self._$1 = value}\n\tdef fdel(self):\n\t\t\t${5:del self._$1}\n\treturn locals()\n$1 = property(**$1())${6}"
@@ -31,3 +31,8 @@ exe "Snipp tryef try:\n\t${1:pass}\nexcept ${2:Exception}, ${3:e}:\n\t${4:raise 
 exe "Snipp ifmain if __name__ == '__main__':\n\t${1:main()}"
 " __magic__
 exe 'Snipp _ __${1:init}__${2}'
+" pprint
+exe 'Snipp pp from pprint import pprint; pprint(${1})'
+" pdb.set_trace()
+exe 'Snip pdb import pdb; pdb.set_trace()${1}'
+
