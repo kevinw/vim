@@ -197,6 +197,9 @@ map <Leader>V :sp ~/vimfiles/.vimrc<CR><C-W>_
 " Jump to any file in any subdirectory under the current
 map <Leader>j :e **/
 
+" Jump to the best file match for the word under the cursor
+map <Leader>J :e **/<C-r><C-w>*<CR>
+
 " Ack (grep) for the word under the cursor. 
 :nnoremap <Leader>g :Ack <C-r><C-w>
 
@@ -212,6 +215,9 @@ noremap <silent> <leader>xp "_yiw:s/\(\%#\w\+\)\(\W\+\)\(\w\+\)/\3\2\1/<cr><c-o>
 
 " <Leader>a selects whole buffer
 map <Leader>a ggVG
+
+" <Leader>z closes the quickfix window
+map <Leader>z :ccl<CR>
 
 " highlight spelling errors with a bright orange curly line
 if has("gui_running")

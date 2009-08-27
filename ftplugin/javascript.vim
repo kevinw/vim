@@ -2,4 +2,4 @@ set makeprg=jsl\ -nologo\ -nofilelisting\ -nosummary\ -nocontext\ -conf\ c:\\Use
 set errorformat=%f(%l):\ %m
 "make F10 call make for linting etc.
 inoremap <silent> <F10> <C-O>:make<CR>
-map <silent> <F10> :make<CR>
+map <F10> :silent make<CR>
