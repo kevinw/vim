@@ -1,11 +1,37 @@
-" don't bother with vi compatibility
-set nocompatible
-
 " custom shortcuts use "," not "\" -- it's easier to reach!
 let mapleader = ","
 
+" rope options
+let g:ropevim_editor_changes = 1
+let g:ropevim_autoimport_modules = ["os", "shutil", "sys"]
+let g:ropevim_enable_shortcuts = 0
+let g:ropevim_guess_project = 1
+
+map <Leader>rm :RopeExtractMethod!<CR>
+map <Leader>rs :RopeChangeSignature!<CR>
+map <Leader>rr :RopeRename!<CR>
+map <Leader>rg :silent RopeGotoDefinition<CR>
+
+" generate
+map <Leader>rnv :silent RopeGenerateVariable!<CR>
+map <Leader>rnf :silent RopeGenerateFunction!<CR>
+map <Leader>rnc :silent RopeGenerateClass!<CR>
+
+
+" lookups
+map <Leader>rad :RopeShowDoc<CR>
+
+
+source ~/src/ropevim/ropevim.vim
+
+
+" don't bother with vi compatibility
+set nocompatible
+
 " let plugins for specific filetypes load
 filetype plugin indent on
+
+let g:loaded_delimitMate = 1 " disabled for now
 
 let digsby='c:\dev\digsby\'
 let pydir=digsby.'build\msw\python\'
@@ -16,15 +42,17 @@ let g:fuzzy_roots = ['~/src/digsby/src']
 
 let g:pyflakes_builtins = ['sentinel', 'Sentinel', '_', 'Null']
 
-command KillPydevComments :%s/\s*#@UnresolvedImport\s*//g
+let g:VCSCommandSplit = 'vertical'
+
+command! KillPydevComments :%s/\s*#@UnresolvedImport\s*//g
 
 " make Q format text instead of entering Ex mode
 map Q gq
 
 " for mistyping :w as :W
-command W :w
+command! W :w
 
-command CdFile :cd %:h " change directories to the current file's directory
+command! CdFile :cd %:h " change directories to the current file's directory
 
 " hides file types in directory listings
 let g:netrw_list_hide='^\.svn/$,^\.settings/$,.*\.pyo$,.*\.pyc,.*\.obj'
@@ -181,7 +209,6 @@ map <Leader>to :TracBrowser<CR>
 map <Leader>tl :TracLog<CR>
 
 map <Leader>b :Bug 
-map <Leader>r :Revision 
 
 " add a missing semicolon to the end of this line
 map <Leader>; <ESC>A;<ESC>
@@ -192,10 +219,14 @@ if (has("win32") || has("win64"))
 endif
 
 " <Leader>V opens this file (.vimrc)
-map <Leader>V :sp ~/vimfiles/.vimrc<CR><C-W>_
+map <Leader>v :sp ~/vimfiles/.vimrc<CR><C-W>_
+map <Leader>V :source ~/.vimrc<CR>
 
 " Jump to any file in any subdirectory under the current
 map <Leader>j :e **/
+
+" <Leader>a is equivalent to ":Ack [word at cursor]"
+map <Leader>a :Ack <C-r><C-w>
 
 " Jump to the best file match for the word under the cursor
 map <Leader>J :e **/<C-r><C-w>*<CR>
@@ -213,11 +244,8 @@ noremap <silent> <leader>xp "_yiw:s/\(\%#\w\+\)\(\W\+\)\(\w\+\)/\3\2\1/<cr><c-o>
 " swap this word with the previous
 "noremap <silent> <Leader>xp :s/\v(<\k+>)(.{-})(<\k*%#\k*>)/\3\2\1/<CR>
 
-" <Leader>a selects whole buffer
-map <Leader>a ggVG
-
-" <Leader>z closes the quickfix window
-map <Leader>z :ccl<CR>
+" <Leader>A selects whole buffer
+map <Leader>A ggVG
 
 " highlight spelling errors with a bright orange curly line
 if has("gui_running")
@@ -230,6 +258,20 @@ endif
 " leader P copies full file path to clipboard
 map <Leader>p :let @+=expand("%:p")<CR>:echo "copied" expand("%:p")<CR>
 
+" <Leader>z opens Google's "I'm feeling lucky" result for the word at the cursor
+function! Lucky()
+    python << EOF
+from xgoogle.search import GoogleSearch
+import os
+term = vim.eval("expand(\"<cword>\")")
+gs = GoogleSearch(term)
+results = gs.get_results()
+if results: os.startfile(results[0].url)
+EOF
+endfunction
+
+map <Leader>z :call Lucky()<CR>
+
 function! JSONPrettify()
     python << EOF
 import vim, simplejson
@@ -239,5 +281,5 @@ EOF
 endfunction
 
 " format JSON nicely (via python's simplejson)
-command JSONPrettify :call JSONPrettify()
+command! JSONPrettify :call JSONPrettify()
 
