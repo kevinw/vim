@@ -22,9 +22,6 @@ map <Leader>rnc :silent RopeGenerateClass!<CR>
 map <Leader>rad :RopeShowDoc<CR>
 
 
-source ~/src/ropevim/ropevim.vim
-
-
 " don't bother with vi compatibility
 set nocompatible
 
