@@ -102,7 +102,7 @@ if has("gui_running")
     " make the default window size a bit bigger
 "    set lines=60
 "    set columns=90
-    colorscheme desert
+    colorscheme wombat
     set gfn=Monaco:h15:a,Consolas:h10:cANSI
 
     set guioptions-=m "remove the menu bar
