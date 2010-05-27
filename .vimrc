@@ -1,6 +1,7 @@
 " custom shortcuts use "," not "\" -- it's easier to reach!
 let mapleader = ","
 
+
 " rope options
 let g:ropevim_editor_changes = 1
 let g:ropevim_autoimport_modules = ["os", "shutil", "sys"]
@@ -78,6 +79,7 @@ command! Todo :sp ~/Desktop/TODO.txt
 " highlight SIP files like C++
 au BufNewFile,BufRead *.sip set filetype=cpp
 au BufNewFile,BufRead *.tenjin set filetype=html
+au BufNewFile,BufRead *.as set filetype=javascript
 
 " automatically jump to the last position in a file
 " au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
@@ -127,7 +129,8 @@ set wildignore+=*.lib,*.dll,*.exe,*.o,*.obj,*.pyc,*.pyo,*.png,*.gif,*.jpg,*.jpeg
 
 syntax on
 
-set nohls " turn off search highlighting (set hls will bring it back)
+" set nohls " turn off search highlighting (set hls will bring it back)
+set hlsearch
 set nobackup
 set nowritebackup
 
