@@ -100,8 +100,9 @@ autocmd BufEnter * :syntax sync fromstart
 
 if has("gui_running")
     " make the default window size a bit bigger
-"    set lines=60
-"    set columns=90
+    set columns=110
+    set lines=60
+
     colorscheme wombat
     set gfn=Monaco:h15:a,Consolas:h10:cANSI
 
@@ -193,8 +194,8 @@ endif
 function! Ack(args)
     let grepprg_bak=&grepprg
     set grepprg=ack\ -H\ --nocolor\ --nogroup
-    execute "silent! grep " . a:args
-    botright copen
+    execute "silent! lgrep " . a:args
+    botright lopen
     let &grepprg=grepprg_bak
 endfunction
 
@@ -257,8 +258,7 @@ if has("gui_running")
     highlight SpellBad term=underline gui=undercurl guisp=Orange
 endif
 
-:nnoremap <Leader>q :cn<CR>
-:nnoremap <Leader>Q :cN<CR>
+:nnoremap <Leader>q :cc<CR>
 
 " leader P copies full file path to clipboard
 map <Leader>p :let @+=expand("%:p")<CR>:echo "copied" expand("%:p")<CR>
@@ -279,7 +279,11 @@ map <Leader>z :call Lucky()<CR>
 
 function! JSONPrettify()
     python << EOF
-import vim, simplejson
+import vim
+try:
+    import simplejson
+except ImportError:
+    import json as simplejson
 b = vim.current.buffer
 b[:] = simplejson.dumps(simplejson.loads('\n'.join(b[:])), indent=4).split('\n')
 EOF
