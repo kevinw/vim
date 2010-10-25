@@ -1,6 +1,10 @@
 " custom shortcuts use "," not "\" -- it's easier to reach!
 let mapleader = ","
 
+if has("win32") || has("win64")
+    " open current file in explorer
+    :map <Leader>e :silent !explorer /select,%:p<CR>
+endif
 
 " rope options
 let g:ropevim_editor_changes = 1
