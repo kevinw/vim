@@ -24,6 +24,7 @@ endif
 " General colors
 hi Cursor 		guifg=NONE    guibg=#656565 gui=none
 hi Normal 		guifg=#f6f3e8 guibg=#242424 gui=none
+hi Search       guifg=#f6f3e8 guibg=#343434 gui=none
 hi NonText 		guifg=#808080 guibg=#303030 gui=none
 hi LineNr 		guifg=#857b6f guibg=#000000 gui=none
 hi StatusLine 	guifg=#f6f3e8 guibg=#444444 gui=italic

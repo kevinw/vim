@@ -35,4 +35,5 @@ exe 'Snipp _ __${1:init}__${2}'
 exe 'Snipp pp from pprint import pprint; pprint(${1})'
 " pdb.set_trace()
 exe 'Snip pdb import pdb; pdb.set_trace()${1}'
-
+" traceback.print_stack()
+exe 'Snip print_stack import traceback; traceback.print_stack()'

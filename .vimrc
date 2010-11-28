@@ -4,6 +4,11 @@ let mapleader = ","
 " ssh into sites
 command! NFS :e scp://kevinwatters_symbolsystem@ssh.phx.nearlyfreespeech.net/
 
+if has("win32") || has("win64")
+    " open current file in explorer
+    :map <Leader>e :silent !explorer /select,%:p<CR>
+endif
+
 " rope options
 let g:ropevim_editor_changes = 1
 let g:ropevim_autoimport_modules = ["os", "shutil", "sys"]
@@ -79,6 +84,7 @@ command! Todo :sp ~/Desktop/TODO.txt
 au BufNewFile,BufRead *.sip set filetype=cpp
 au BufNewFile,BufRead *.pde set filetype=cpp
 au BufNewFile,BufRead *.tenjin set filetype=html
+au BufNewFile,BufRead *.as set filetype=javascript
 
 au BufRead,BufNewFile *.go set filetype=go
 au BufNewFile,BufRead *.as set filetype=actionscript
@@ -101,9 +107,10 @@ autocmd BufEnter * :syntax sync fromstart
 
 if has("gui_running")
     " make the default window size a bit bigger
-"    set lines=60
-"    set columns=90
-    colorscheme desert
+    set columns=110
+    set lines=60
+
+    colorscheme wombat
     set gfn=Monaco:h15:a,Consolas:h10:cANSI
 
     set guioptions-=m "remove the menu bar
@@ -132,7 +139,8 @@ set wildignore+=*.lib,*.dll,*.exe,*.o,*.obj,*.pyc,*.pyo,*.png,*.gif,*.jpg,*.jpeg
 
 syntax on
 
-set nohls " turn off search highlighting (set hls will bring it back)
+" set nohls " turn off search highlighting (set hls will bring it back)
+set hlsearch
 set nobackup
 set nowritebackup
 
@@ -257,8 +265,7 @@ if has("gui_running")
     highlight SpellBad term=underline gui=undercurl guisp=Orange
 endif
 
-:nnoremap <Leader>q :cn<CR>
-:nnoremap <Leader>Q :cN<CR>
+:nnoremap <Leader>q :cc<CR>
 
 " leader P copies full file path to clipboard
 map <Leader>p :let @+=expand("%:p")<CR>:echo "copied" expand("%:p")<CR>
@@ -279,7 +286,11 @@ map <Leader>z :call Lucky()<CR>
 
 function! JSONPrettify()
     python << EOF
-import vim, simplejson
+import vim
+try:
+    import simplejson
+except ImportError:
+    import json as simplejson
 b = vim.current.buffer
 b[:] = simplejson.dumps(simplejson.loads('\n'.join(b[:])), indent=4).split('\n')
 EOF

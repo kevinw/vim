@@ -40,3 +40,6 @@ exe "Snipp gett getElementBy${1:Id}('${2}')${3}"
 exe "Snipp log console.log('${1}');${2}"
 " jquery
 exe "Snipp each $.each(${1:seq}, function (i, ${2:item}) {\n    ${3}\n});"
+" var self = this;
+exe "Snipp self var self = this;\n${1}"
+
