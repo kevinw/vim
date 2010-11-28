@@ -1,6 +1,9 @@
 " custom shortcuts use "," not "\" -- it's easier to reach!
 let mapleader = ","
 
+" ssh into sites
+command! NFS :e scp://kevinwatters_symbolsystem@ssh.phx.nearlyfreespeech.net/
+
 " rope options
 let g:ropevim_editor_changes = 1
 let g:ropevim_autoimport_modules = ["os", "shutil", "sys"]
@@ -190,8 +193,8 @@ endif
 function! Ack(args)
     let grepprg_bak=&grepprg
     set grepprg=ack\ -H\ --nocolor\ --nogroup
-    execute "silent! grep " . a:args
-    botright copen
+    execute "silent! lgrep " . a:args
+    botright lopen
     let &grepprg=grepprg_bak
 endfunction
 
