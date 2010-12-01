@@ -1,3 +1,8 @@
+filetype off
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+filetype plugin indent on
+
 " custom shortcuts use "," not "\" -- it's easier to reach!
 let mapleader = ","
 
@@ -26,12 +31,8 @@ map <Leader>rnc :silent RopeGenerateClass!<CR>
 " lookups
 map <Leader>rad :RopeShowDoc<CR>
 
-
 " don't bother with vi compatibility
 set nocompatible
-
-" let plugins for specific filetypes load
-filetype plugin indent on
 
 let g:loaded_delimitMate = 1 " disabled for now
 
