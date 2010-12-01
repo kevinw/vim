@@ -272,7 +272,8 @@ map <Leader>p :let @+=expand("%:p")<CR>:echo "copied" expand("%:p")<CR>
 
 " <Leader>z opens Google's "I'm feeling lucky" result for the word at the cursor
 function! Lucky()
-    python << EOF
+    if has("python")
+        python << EOF
 from xgoogle.search import GoogleSearch
 import os
 term = vim.eval("expand(\"<cword>\")")
@@ -280,6 +281,7 @@ gs = GoogleSearch(term)
 results = gs.get_results()
 if results: os.startfile(results[0].url)
 EOF
+    endif
 endfunction
 
 map <Leader>z :call Lucky()<CR>
