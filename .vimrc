@@ -271,22 +271,6 @@ endif
 " leader P copies full file path to clipboard
 map <Leader>p :let @+=expand("%:p")<CR>:echo "copied" expand("%:p")<CR>
 
-" <Leader>z opens Google's "I'm feeling lucky" result for the word at the cursor
-function! Lucky()
-    if has("python")
-        python << EOF
-from xgoogle.search import GoogleSearch
-import os
-term = vim.eval("expand(\"<cword>\")")
-gs = GoogleSearch(term)
-results = gs.get_results()
-if results: os.startfile(results[0].url)
-EOF
-    endif
-endfunction
-
-map <Leader>z :call Lucky()<CR>
-
 function! JSONPrettify()
     python << EOF
 import vim
@@ -301,4 +285,5 @@ endfunction
 
 " format JSON nicely (via python's simplejson)
 command! JSONPrettify :call JSONPrettify()
+
 

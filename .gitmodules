@@ -1,0 +1,3 @@
+[submodule "bundle/vimoogle"]
+	path = bundle/vimoogle
+	url = git@github.com:kevinw/vimoogle.git
