@@ -266,7 +266,7 @@ if has("gui_running")
     highlight SpellBad term=underline gui=undercurl guisp=Orange
 endif
 
-:nnoremap <Leader>q :cc<CR>
+:nnoremap <Leader>q :cn<CR>
 
 " leader P copies full file path to clipboard
 map <Leader>p :let @+=expand("%:p")<CR>:echo "copied" expand("%:p")<CR>
