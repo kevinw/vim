@@ -1,3 +1,7 @@
+set lazyredraw
+
+au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl 
+
 filetype off
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
@@ -46,7 +50,7 @@ let g:fuzzy_ignore='*.pyc;*.pyo;.svn;*.suo;*.vcproj;*.o;*.obj;.git'
 let g:fuzzy_match_limit=75 " default 200
 let g:fuzzy_roots = ['~/src/digsby/src']
 
-let g:pyflakes_builtins = ['sentinel', 'Sentinel', '_', 'Null']
+let g:pyflakes_builtins = ['sentinel', 'Sentinel', '_', 'N_', 'Null']
 
 let g:VCSCommandSplit = 'vertical'
 
@@ -214,6 +218,9 @@ noremap <C-S> :update<CR>
 vnoremap <C-S> <C-C>:update<CR>
 inoremap <C-S> <C-O>:update<CR>
 
+map <C-j> :lnext<CR>
+map <C-k> :lprevious<CR>
+
 " <Leader> commands
 
 " open current buffer in trac browser
@@ -286,4 +293,7 @@ endfunction
 " format JSON nicely (via python's simplejson)
 command! JSONPrettify :call JSONPrettify()
 
-
+set undodir=~/.vim/undodir
+set undofile
+set undolevels=1000 "maximum number of changes that can be undone
+set undoreload=10000 "maximum number lines to save for undo on a buffer reload
