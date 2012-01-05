@@ -87,7 +87,7 @@ command! -nargs=1 Bug :call LaunchBrowser("http://mini/bugs/?act=view&id=<args>"
 command! -nargs=1 Ticket :call LaunchBrowser("http://mini/cgi-bin/ticket/<args>")
 command! -nargs=1 Revision :call LaunchBrowser("http://mini/cgi-bin/changeset/<args>")
 
-command! Todo :sp ~/Desktop/TODO.txt
+command! Todo :vsp ~/Dropbox/Personal/Todo.txt
 
 " highlight SIP files like C++
 au BufNewFile,BufRead *.sip set filetype=cpp
