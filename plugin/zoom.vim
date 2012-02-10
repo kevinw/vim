@@ -1,4 +1,4 @@
-if &cp || exists("g:loaded_zoom")
+if &cp || exists("g:loaded_zoom") || !has("python")
     finish
 endif
 let g:loaded_zoom = 1

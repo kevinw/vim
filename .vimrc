@@ -1,7 +1,22 @@
+set lazyredraw
+
+au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl 
+
 filetype off
 call pathogen#runtime_append_all_bundles()
 call pathogen#helptags()
 filetype plugin indent on
+
+set noeol
+
+let php_folding = 0
+let php_strict_blocks = 0
+let php_large_file = 800
+
+" let g:syntastic_auto_loc_list = 1
+let g:syntastic_highlight = 1
+let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
+let g:syntastic_jsl_conf = "~/.vim/bundle/syntastic/syntax_checkers/jsl.conf"
 
 " custom shortcuts use "," not "\" -- it's easier to reach!
 let mapleader = ","
@@ -39,14 +54,7 @@ set nocompatible
 
 let g:loaded_delimitMate = 1 " disabled for now
 
-let digsby='c:\dev\digsby\'
-let pydir=digsby.'build\msw\python\'
-let g:fuzzy_roots=[digsby.'src', digsby.'ext\src', digsby.'build\msw\wxWidgets\src', digsby.'build\msw\wxWidgets\include', pydir.'include', pydir.'Modules', pydir.'Objects', pydir.'Lib', digsby.'build\msw\sip', digsby.'build\msw\wxpy\src']
-let g:fuzzy_ignore='*.pyc;*.pyo;.svn;*.suo;*.vcproj;*.o;*.obj;.git'
-let g:fuzzy_match_limit=75 " default 200
-let g:fuzzy_roots = ['~/src/digsby/src']
-
-let g:pyflakes_builtins = ['sentinel', 'Sentinel', '_', 'Null']
+let g:pyflakes_builtins = ['sentinel', 'Sentinel', '_', 'N_', 'Null']
 
 let g:VCSCommandSplit = 'vertical'
 
@@ -79,17 +87,19 @@ command! -nargs=1 Bug :call LaunchBrowser("http://mini/bugs/?act=view&id=<args>"
 command! -nargs=1 Ticket :call LaunchBrowser("http://mini/cgi-bin/ticket/<args>")
 command! -nargs=1 Revision :call LaunchBrowser("http://mini/cgi-bin/changeset/<args>")
 
-command! Todo :sp ~/Desktop/TODO.txt
+command! Todo :vsp ~/Dropbox/Personal/Todo.txt
 
 " highlight SIP files like C++
 au BufNewFile,BufRead *.sip set filetype=cpp
 au BufNewFile,BufRead *.pde set filetype=cpp
 au BufNewFile,BufRead *.tenjin set filetype=html
 au BufNewFile,BufRead *.as set filetype=javascript
+au BufNewFile,BufRead *.less set filetype=less
 
 au BufRead,BufNewFile *.go set filetype=go
 au BufNewFile,BufRead *.as set filetype=actionscript
 
+au BufRead,BufNewFile *.jst set filetype=html
 
 " automatically jump to the last position in a file
 " au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
@@ -112,13 +122,16 @@ if has("gui_running")
     set lines=60
 
     colorscheme wombat
-    set gfn=Monaco:h15:a,Consolas:h10:cANSI
+    set gfn=Monaco:h12,Consolas:h10:cANSI
 
     set guioptions-=m "remove the menu bar
     set guioptions-=T "remove the tool bar
 
     set guioptions-=L " never show scrollbars
     set guioptions-=R
+
+    " highlight cursor line
+    set cursorline
 endif " gui-running
 
 " In many terminal emulators the mouse works just fine, thus enable it.
@@ -141,7 +154,7 @@ set wildignore+=*.lib,*.dll,*.exe,*.o,*.obj,*.pyc,*.pyo,*.png,*.gif,*.jpg,*.jpeg
 syntax on
 
 " set nohls " turn off search highlighting (set hls will bring it back)
-set hlsearch
+set nohlsearch
 set nobackup
 set nowritebackup
 
@@ -207,12 +220,24 @@ function! Ack(args)
     let &grepprg=grepprg_bak
 endfunction
 
+function! Mdgrep(args)
+    let grepprg_bak=&grepprg
+    set grepprg=mdgrep
+    execute "silent! lgrep " . a:args
+    botright lopen
+    let &grepprg=grepprg_bak
+endfunction
+
 command! -nargs=* -complete=file Ack call Ack(<q-args>)
+command! -nargs=* -complete=file Mdgrep call Mdgrep(<q-args>)
 
 " Use CTRL-S for saving, also in Insert mode
 noremap <C-S> :update<CR>
 vnoremap <C-S> <C-C>:update<CR>
 inoremap <C-S> <C-O>:update<CR>
+
+map <C-j> :lnext<CR>
+map <C-k> :lprevious<CR>
 
 " <Leader> commands
 
@@ -246,7 +271,7 @@ map <Leader>a :Ack <C-r><C-w>
 map <Leader>J :e **/<C-r><C-w>*<CR>
 
 " Ack (grep) for the word under the cursor. 
-:nnoremap <Leader>g :Ack <C-r><C-w>
+:nnoremap <Leader>g :Gstatus<CR>
 
 " <Leader>s replaces the word at the cursor
 :nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
@@ -266,7 +291,7 @@ if has("gui_running")
     highlight SpellBad term=underline gui=undercurl guisp=Orange
 endif
 
-:nnoremap <Leader>q :cc<CR>
+:nnoremap <Leader>q :cn<CR>
 
 " leader P copies full file path to clipboard
 map <Leader>p :let @+=expand("%:p")<CR>:echo "copied" expand("%:p")<CR>
@@ -286,4 +311,25 @@ endfunction
 " format JSON nicely (via python's simplejson)
 command! JSONPrettify :call JSONPrettify()
 
+" set statusline+=%{SyntasticStatuslineFlag()}
 
+" don't underline whitespace in between HTML <a> tags
+syn match htmlLinkWhite /\s\+/ contained containedin=htmlLink 
+hi default htmlLinkWhite term=NONE cterm=NONE gui=NONE 
+
+au BufRead,BufNewFile *.html set filetype=php
+
+" always move by virtual lines
+nnoremap j gj
+nnoremap k gk
+vnoremap j gj
+vnoremap k gk
+
+" tagged eval
+source ~/.vim-passwords.vimrc
+map <Leader>e :TAGEval<CR>
+
+set undodir=~/.vim/undodir
+set undofile
+set undolevels=1000 "maximum number of changes that can be undone
+set undoreload=10000 "maximum number lines to save for undo on a buffer reload
