@@ -326,7 +326,9 @@ vnoremap j gj
 vnoremap k gk
 
 " tagged eval
-source ~/.vim-passwords.vimrc
+if filereadable("~/.vim-passwords.vimrc")
+    source ~/.vim-passwords.vimrc
+endif
 map <Leader>e :TAGEval<CR>
 
 set undodir=~/.vim/undodir
