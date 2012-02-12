@@ -13,10 +13,10 @@ let php_folding = 0
 let php_strict_blocks = 0
 let php_large_file = 800
 
-" let g:syntastic_auto_loc_list = 1
-let g:syntastic_highlight = 1
-let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
-let g:syntastic_jsl_conf = "~/.vim/bundle/syntastic/syntax_checkers/jsl.conf"
+" let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
+" let g:syntastic_jsl_conf = "~/.vim/bundle/syntastic/syntax_checkers/jsl.conf"
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
 
 " custom shortcuts use "," not "\" -- it's easier to reach!
 let mapleader = ","

@@ -17,7 +17,7 @@
 	path = bundle/mustache
 	url = git://github.com/juvenn/mustache.vim.git
 [submodule "bundle/syntastic"]
-    path = bundle/syntastic
+	path = bundle/syntastic
 	url = https://github.com/scrooloose/syntastic.git
 [submodule "bundle/vim-snipmate"]
 	path = bundle/vim-snipmate
