@@ -1,6 +1,7 @@
 set lazyredraw
 
-au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl 
+" reload chrome's active tab with leader-r
+map <Leader>r :silent !osascript -e "tell application \"Google Chrome\" to tell the active tab of its first window to reload"<CR><CR>
 
 filetype off
 call pathogen#runtime_append_all_bundles()
@@ -15,47 +16,21 @@ let php_large_file = 800
 
 " let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
 " let g:syntastic_jsl_conf = "~/.vim/bundle/syntastic/syntax_checkers/jsl.conf"
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_auto_loc_list = 2
 let g:syntastic_check_on_open = 1
 
 " custom shortcuts use "," not "\" -- it's easier to reach!
 let mapleader = ","
-
-" ssh into sites
-command! NFS :e scp://kevinwatters_symbolsystem@ssh.phx.nearlyfreespeech.net/
 
 if has("win32") || has("win64")
     " open current file in explorer
     :map <Leader>e :silent !explorer /select,%:p<CR>
 endif
 
-" rope options
-let g:ropevim_editor_changes = 1
-let g:ropevim_autoimport_modules = ["os", "shutil", "sys"]
-let g:ropevim_enable_shortcuts = 0
-let g:ropevim_guess_project = 1
-
-map <Leader>rm :RopeExtractMethod!<CR>
-map <Leader>rs :RopeChangeSignature!<CR>
-map <Leader>rr :RopeRename!<CR>
-map <Leader>rg :silent RopeGotoDefinition<CR>
-
-" generate
-map <Leader>rnv :silent RopeGenerateVariable!<CR>
-map <Leader>rnf :silent RopeGenerateFunction!<CR>
-map <Leader>rnc :silent RopeGenerateClass!<CR>
-
-
-" lookups
-map <Leader>rad :RopeShowDoc<CR>
-
-" don't bother with vi compatibility
-set nocompatible
+set nocompatible " don't bother with vi compatibility
 
 let g:loaded_delimitMate = 1 " disabled for now
-
 let g:pyflakes_builtins = ['sentinel', 'Sentinel', '_', 'N_', 'Null']
-
 let g:VCSCommandSplit = 'vertical'
 
 command! KillPydevComments :%s/\s*#@UnresolvedImport\s*//g
@@ -82,29 +57,18 @@ function! LaunchBrowser(url)
     silent! execute startcmd url endcmd
 endfunction
 
-" digsby website shortcuts
-command! -nargs=1 Bug :call LaunchBrowser("http://mini/bugs/?act=view&id=<args>")
-command! -nargs=1 Ticket :call LaunchBrowser("http://mini/cgi-bin/ticket/<args>")
-command! -nargs=1 Revision :call LaunchBrowser("http://mini/cgi-bin/changeset/<args>")
-
-command! Todo :vsp ~/Dropbox/Personal/Todo.txt
-
 " highlight SIP files like C++
 au BufNewFile,BufRead *.sip set filetype=cpp
 au BufNewFile,BufRead *.pde set filetype=cpp
 au BufNewFile,BufRead *.tenjin set filetype=html
 au BufNewFile,BufRead *.as set filetype=javascript
 au BufNewFile,BufRead *.less set filetype=less
-
 au BufRead,BufNewFile *.go set filetype=go
 au BufNewFile,BufRead *.as set filetype=actionscript
-
 au BufRead,BufNewFile *.jst set filetype=html
+au BufRead,BufNewFile *.html set filetype=php " read .html as PHP
+au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl 
 
-" automatically jump to the last position in a file
-" au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
-
-" let VCSCommandGitExec = "c:\\program files\\git\\bin\\git.exe"
 
 set nowrap " no wordwrap
 
@@ -121,7 +85,11 @@ if has("gui_running")
     set columns=110
     set lines=60
 
-    colorscheme wombat
+    syntax enable
+    set background=dark
+    colorscheme solarized
+
+    "colorscheme wombat
     set gfn=Monaco:h12,Consolas:h10:cANSI
 
     set guioptions-=m "remove the menu bar
@@ -158,11 +126,8 @@ set nohlsearch
 set nobackup
 set nowritebackup
 
-" enter spaces when tab is pressed:
-set expandtab
-
-" do not break lines when line length increases
-set textwidth=0
+set expandtab   " enter spaces when tab is pressed:
+set textwidth=0 " do not break lines when line length increases
 
 " use 4 spaces to represent a tab
 set tabstop=4
@@ -184,24 +149,15 @@ autocmd BufWritePre *.py normal m`:%s/\s\+$//e ``
 " auto indent after "def foo():<CR>"
 autocmd BufRead *.py set smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class,with
 
-" makes backspace key more powerful.
-set backspace=indent,eol,start
-
-" shows the match while typing
-set incsearch
-
-" show line and column number
-set ruler
-
-" show some autocomplete options in status bar
-set wildmenu
+set backspace=indent,eol,start " makes backspace key more powerful.
+set incsearch " shows the match while typing
+set ruler     " show line and column number
+set wildmenu  " show some autocomplete options in status bar
 
 " share clipboard with windows clipboard
 set clipboard+=unnamed
 
 set showmatch " highlight matching parens
-
-
 
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
@@ -257,10 +213,6 @@ if (has("win32") || has("win64"))
     map <Leader>m :simalt ~x<CR>
 endif
 
-" <Leader>V opens this file (.vimrc)
-map <Leader>v :sp ~/vimfiles/.vimrc<CR><C-W>_
-map <Leader>V :source ~/.vimrc<CR>
-
 " Jump to any file in any subdirectory under the current
 map <Leader>j :e **/
 
@@ -279,9 +231,6 @@ map <Leader>J :e **/<C-r><C-w>*<CR>
 " swap this word with the next
 " noremap <silent> <Leader>xn :s/\v(<\k*%#\k*>)(\_.{-})(<\k+>)/\3\2\1/<CR>
 noremap <silent> <leader>xp "_yiw:s/\(\%#\w\+\)\(\W\+\)\(\w\+\)/\3\2\1/<cr><c-o>
-
-" swap this word with the previous
-"noremap <silent> <Leader>xp :s/\v(<\k+>)(.{-})(<\k*%#\k*>)/\3\2\1/<CR>
 
 " <Leader>A selects whole buffer
 map <Leader>A ggVG
@@ -311,13 +260,9 @@ endfunction
 " format JSON nicely (via python's simplejson)
 command! JSONPrettify :call JSONPrettify()
 
-" set statusline+=%{SyntasticStatuslineFlag()}
-
 " don't underline whitespace in between HTML <a> tags
 syn match htmlLinkWhite /\s\+/ contained containedin=htmlLink 
 hi default htmlLinkWhite term=NONE cterm=NONE gui=NONE 
-
-au BufRead,BufNewFile *.html set filetype=php
 
 " always move by virtual lines
 nnoremap j gj
@@ -333,5 +278,5 @@ map <Leader>e :TAGEval<CR>
 
 set undodir=~/.vim/undodir
 set undofile
-set undolevels=1000 "maximum number of changes that can be undone
-set undoreload=10000 "maximum number lines to save for undo on a buffer reload
+set undolevels=50 "maximum number of changes that can be undone
+set undoreload=50 "maximum number lines to save for undo on a buffer reload
