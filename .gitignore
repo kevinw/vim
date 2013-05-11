@@ -3,3 +3,5 @@ ftplugin/python/
 .VimballRecord
 .netrwhist
 doc/tags
+.DS_Store
+undodir/

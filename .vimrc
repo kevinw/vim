@@ -1,5 +1,8 @@
 set lazyredraw
 
+" vimwiki location
+let g:vimwiki_list = [{'path': '~/Dropbox/Wiki/'}]
+
 " reload chrome's active tab with leader-r
 map <Leader>r :silent !osascript -e "tell application \"Google Chrome\" to tell the active tab of its first window to reload"<CR><CR>
 
@@ -66,6 +69,7 @@ au BufNewFile,BufRead *.less set filetype=less
 au BufRead,BufNewFile *.go set filetype=go
 au BufNewFile,BufRead *.as set filetype=actionscript
 au BufRead,BufNewFile *.jst set filetype=html
+au BufRead,BufNewFile *.hbs set filetype=html
 au BufRead,BufNewFile *.html set filetype=php " read .html as PHP
 au BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl setf glsl 
 
@@ -87,10 +91,11 @@ if has("gui_running")
 
     syntax enable
     set background=dark
+	"let g:solarized_menu=0
     colorscheme solarized
 
     "colorscheme wombat
-    set gfn=Monaco:h12,Consolas:h10:cANSI
+    set gfn=Consolas:h11
 
     set guioptions-=m "remove the menu bar
     set guioptions-=T "remove the tool bar
@@ -208,10 +213,7 @@ map <Leader>b :Bug
 " add a missing semicolon to the end of this line
 map <Leader>; <ESC>A;<ESC>
 
-" maximize the window
-if (has("win32") || has("win64"))
-    map <Leader>m :simalt ~x<CR>
-endif
+map <Leader>m :w \| :silent make \| redraw!<CR>
 
 " Jump to any file in any subdirectory under the current
 map <Leader>j :e **/
@@ -245,6 +247,10 @@ endif
 " leader P copies full file path to clipboard
 map <Leader>p :let @+=expand("%:p")<CR>:echo "copied" expand("%:p")<CR>
 
+map <Leader>r :!racket -i -t %:p<TAB><CR>
+map <Leader>w :set lbr wrap<CR>
+map <Leader>W :set nolbr nowrap<CR>
+
 function! JSONPrettify()
     python << EOF
 import vim
@@ -270,13 +276,18 @@ nnoremap k gk
 vnoremap j gj
 vnoremap k gk
 
-" tagged eval
 if filereadable("~/.vim-passwords.vimrc")
     source ~/.vim-passwords.vimrc
 endif
-map <Leader>e :TAGEval<CR>
 
 set undodir=~/.vim/undodir
 set undofile
 set undolevels=50 "maximum number of changes that can be undone
 set undoreload=50 "maximum number lines to save for undo on a buffer reload
+
+autocmd filetype scheme,racket setlocal tabstop=2
+autocmd filetype scheme,racket setlocal shiftwidth=2
+
+autocmd filetype mkd setlocal spell wrap lbr
+
+autocmd filetype asm setlocal autoread
