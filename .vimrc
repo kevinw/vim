@@ -17,8 +17,7 @@ let php_folding = 0
 let php_strict_blocks = 0
 let php_large_file = 800
 
-" let g:syntastic_stl_format = '[%E{Err: %fe #%e}%B{, }%W{Warn: %fw #%w}]'
-" let g:syntastic_jsl_conf = "~/.vim/bundle/syntastic/syntax_checkers/jsl.conf"
+"let g:syntastic_javascript_jsl_conf = "-ambigious_newline -inc_dec_within_stmt"
 let g:syntastic_auto_loc_list = 2
 let g:syntastic_check_on_open = 1
 
@@ -91,10 +90,7 @@ if has("gui_running")
 
     syntax enable
     set background=dark
-	"let g:solarized_menu=0
     colorscheme solarized
-
-    "colorscheme wombat
     set gfn=Consolas:h11
 
     set guioptions-=m "remove the menu bar
