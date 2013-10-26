@@ -1,4 +1,5 @@
 tractools
+bundle/
 ftplugin/python/
 .VimballRecord
 .netrwhist
