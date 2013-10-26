@@ -14,6 +14,7 @@ Bundle 'scrooloose/syntastic'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-unimpaired'
 Bundle 'airblade/vim-gitgutter'
+Bundle 'rking/ag.vim'
 
 filetype plugin indent on
  
@@ -77,17 +78,10 @@ nnoremap <Leader>gs :Gstatus<cr>
 nnoremap <Leader>gb :Gblame<cr>
 nnoremap <Leader>gw :Gbrowse<cr>
 
+" Ag
 
-" Ack
-function! Ack(args)
-    let grepprg_bak=&grepprg
-    set grepprg=ack\ -H\ --nocolor\ --nogroup
-    execute "silent! lgrep " . a:args
-    botright lopen
-    let &grepprg=grepprg_bak
-endfunction
-
-command! -nargs=* -complete=file Ack call Ack(<q-args>)
+" <Leader>a is equivalent to ":Ag [word at cursor]"
+map <Leader>a :Ag <C-r><C-w>
 
 " Syntastic
 let g:syntastic_python_checkers=['pyflakes']
@@ -96,9 +90,6 @@ let g:syntastic_python_checkers=['pyflakes']
 noremap <C-S> :update<CR>
 vnoremap <C-S> <C-C>:update<CR>
 inoremap <C-S> <C-O>:update<CR>
-
-" <Leader>a is equivalent to ":Ack [word at cursor]"
-map <Leader>a :Ack <C-r><C-w>
 
 " <Leader>s replaces the word at the cursor
 :nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
