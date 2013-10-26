@@ -11,6 +11,8 @@ Bundle 'L9'
 Bundle 'FuzzyFinder'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'scrooloose/syntastic'
+Bundle 'tpope/vim-fugitive'
+Bundle 'airblade/vim-gitgutter'
 
 filetype plugin indent on
  
