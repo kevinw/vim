@@ -12,6 +12,7 @@ Bundle 'FuzzyFinder'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'scrooloose/syntastic'
 Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-unimpaired'
 Bundle 'airblade/vim-gitgutter'
 
 filetype plugin indent on
@@ -70,6 +71,12 @@ set undoreload=100 "maximum number lines to save for undo on a buffer reload
 nnoremap <Leader>f :FufFile **/<cr>
 nnoremap <Leader>b :FufBuffer<cr>
 nnoremap <Leader>t :FufTag<cr>
+
+" Fugitive
+nnoremap <Leader>gs :Gstatus<cr>
+nnoremap <Leader>gb :Gblame<cr>
+nnoremap <Leader>gw :Gbrowse<cr>
+
 
 " Ack
 function! Ack(args)
