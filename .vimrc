@@ -8,13 +8,29 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 Bundle 'L9'
-Bundle 'FuzzyFinder'
+Bundle 'https://github.com/kien/ctrlp.vim.git'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'scrooloose/syntastic'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-unimpaired'
+Bundle 'mattn/webapi-vim'
+Bundle 'mattn/gist-vim'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'rking/ag.vim'
+Bundle 'jnwhiteh/vim-golang'
+Bundle 'scrooloose/nerdtree'
+Bundle 'bling/vim-airline'
+Bundle 'groenewege/vim-less'
+Bundle 'davidhalter/jedi-vim'
+
+" snipmate
+Bundle "MarcWeber/vim-addon-mw-utils"
+Bundle "tomtom/tlib_vim"
+Bundle "garbas/vim-snipmate"
+Bundle "honza/vim-snippets"
+
+" iced-coffee-script
+Bundle "AndrewRadev/vim-coffee-script"
 
 filetype plugin indent on
  
@@ -38,8 +54,8 @@ set autowrite
 set nohlsearch
 set expandtab
 set smartindent
-set tabstop=4
-set softtabstop=4
+set tabstop=2
+set softtabstop=2
 set shiftwidth=2
 set backspace=indent,eol,start
 set incsearch
@@ -50,6 +66,23 @@ set clipboard+=unnamed
 set background=dark
 let g:solarized_termtrans = 0
 colorscheme solarized
+
+if has("gui_running")
+    " make the default window size a bit bigger
+    set columns=110
+    set lines=60
+
+    set gfn=Consolas:h13
+
+    set guioptions-=m "remove the menu bar
+    set guioptions-=T "remove the tool bar
+
+    set guioptions-=L " never show scrollbars
+    set guioptions-=R
+
+    " highlight cursor line
+    set cursorline
+endif " gui-running
 
 if has('mouse')
   set mouse=a
@@ -68,10 +101,8 @@ set undofile
 set undolevels=100 "maximum number of changes that can be undone
 set undoreload=100 "maximum number lines to save for undo on a buffer reload
 
-" FuzzyFinder
-nnoremap <Leader>f :FufFile **/<cr>
-nnoremap <Leader>b :FufBuffer<cr>
-nnoremap <Leader>t :FufTag<cr>
+" ctrl+p
+let g:ctrlp_user_command = 'git ls-files %s --cached --exclude-standard --others'
 
 " Fugitive
 nnoremap <Leader>gs :Gstatus<cr>
@@ -85,6 +116,9 @@ map <Leader>a :Ag <C-r><C-w>
 
 " Syntastic
 let g:syntastic_python_checkers=['pyflakes']
+
+" Jedi
+let g:jedi#use_tabs_not_buffers = 0
 
 " Use CTRL-S for saving, also in Insert mode
 noremap <C-S> :update<CR>
@@ -117,3 +151,5 @@ endfunction
 " format JSON nicely (via python's simplejson)
 command! JSONPrettify :call JSONPrettify()
 
+iab Fasle False
+iab Ture True
