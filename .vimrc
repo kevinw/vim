@@ -22,6 +22,8 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'bling/vim-airline'
 Bundle 'groenewege/vim-less'
 Bundle 'davidhalter/jedi-vim'
+Bundle 'mustache/vim-mustache-handlebars'
+Bundle 'ekalinin/Dockerfile.vim'
 
 " snipmate
 Bundle "MarcWeber/vim-addon-mw-utils"
