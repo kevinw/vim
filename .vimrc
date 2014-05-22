@@ -69,6 +69,12 @@ set background=dark
 let g:solarized_termtrans = 0
 colorscheme solarized
 
+" hide certain filetypes in file listings
+let g:netrw_liststyle=3
+let g:netrw_list_hide='.*\.pyc$,.*\.swp$'
+let NERDTreeIgnore = ['\.pyc$']
+
+
 if has("gui_running")
     " make the default window size a bit bigger
     set columns=110
@@ -117,7 +123,8 @@ nnoremap <Leader>gw :Gbrowse<cr>
 map <Leader>a :Ag <C-r><C-w>
 
 " Syntastic
-let g:syntastic_python_checkers=['pyflakes']
+let g:syntastic_python_checkers=['pyflakes', 'pep8']
+let g:syntastic_coffee_checkers=['coffee', 'coffeejshint']
 
 " Jedi
 let g:jedi#use_tabs_not_buffers = 0
