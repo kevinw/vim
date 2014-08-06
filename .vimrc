@@ -1,7 +1,6 @@
 set nocompatible
 
 " begin vundle
-
 filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
@@ -13,13 +12,13 @@ Bundle 'altercation/vim-colors-solarized'
 Bundle 'scrooloose/syntastic'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-unimpaired'
+Bundle 'tpope/vim-surround'
 Bundle 'mattn/webapi-vim'
 Bundle 'mattn/gist-vim'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'rking/ag.vim'
 Bundle 'jnwhiteh/vim-golang'
 Bundle 'scrooloose/nerdtree'
-Bundle 'bling/vim-airline'
 Bundle 'groenewege/vim-less'
 Bundle 'davidhalter/jedi-vim'
 Bundle 'mustache/vim-mustache-handlebars'
@@ -33,6 +32,9 @@ Bundle "honza/vim-snippets"
 
 " iced-coffee-script
 Bundle "AndrewRadev/vim-coffee-script"
+
+" elm
+Bundle "lambdatoast/elm.vim"
 
 filetype plugin indent on
  
@@ -64,6 +66,8 @@ set incsearch
 set ruler
 set wildmenu
 set clipboard+=unnamed
+
+" au FocusLost * :wa
 
 set background=dark
 let g:solarized_termtrans = 0
@@ -125,6 +129,7 @@ map <Leader>a :Ag <C-r><C-w>
 " Syntastic
 let g:syntastic_python_checkers=['pyflakes', 'pep8']
 let g:syntastic_coffee_checkers=['coffee', 'coffeejshint']
+"let g:syntastic_debug=3
 
 " Jedi
 let g:jedi#use_tabs_not_buffers = 0
@@ -160,5 +165,21 @@ endfunction
 " format JSON nicely (via python's simplejson)
 command! JSONPrettify :call JSONPrettify()
 
+iab flase false
+iab fasle false
+iab ture true
+
 iab Fasle False
 iab Ture True
+
+if has("user_commands")
+    command! -bang -nargs=? -complete=file E e<bang> <args>
+    command! -bang -nargs=? -complete=file W w<bang> <args>
+    command! -bang -nargs=? -complete=file Wq wq<bang> <args>
+    command! -bang -nargs=? -complete=file WQ wq<bang> <args>
+    command! -bang Wa wa<bang>
+    command! -bang WA wa<bang>
+    command! -bang Q q<bang>
+    command! -bang QA qa<bang>
+    command! -bang Qa qa<bang>
+endif
