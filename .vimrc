@@ -2,40 +2,42 @@ set nocompatible
 
 " begin vundle
 filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim/
+call vundle#begin()
 
-Bundle 'gmarik/vundle'
-Bundle 'L9'
-Bundle 'https://github.com/kien/ctrlp.vim.git'
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'scrooloose/syntastic'
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'tpope/vim-surround'
-Bundle 'mattn/webapi-vim'
-Bundle 'mattn/gist-vim'
-Bundle 'airblade/vim-gitgutter'
-Bundle 'rking/ag.vim'
-Bundle 'jnwhiteh/vim-golang'
-Bundle 'scrooloose/nerdtree'
-Bundle 'groenewege/vim-less'
-Bundle 'davidhalter/jedi-vim'
-Bundle 'mustache/vim-mustache-handlebars'
-Bundle 'ekalinin/Dockerfile.vim'
+Plugin 'gmarik/Vundle.vim'
+Plugin 'L9'
+Plugin 'https://github.com/kien/ctrlp.vim.git'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'scrooloose/syntastic'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'tpope/vim-surround'
+Plugin 'mattn/webapi-vim'
+Plugin 'mattn/gist-vim'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'rking/ag.vim'
+Plugin 'jnwhiteh/vim-golang'
+Plugin 'scrooloose/nerdtree'
+Plugin 'groenewege/vim-less'
+Plugin 'davidhalter/jedi-vim'
+Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'ekalinin/Dockerfile.vim'
+Plugin 'tikhomirov/vim-glsl'
 
 " snipmate
-Bundle "MarcWeber/vim-addon-mw-utils"
-Bundle "tomtom/tlib_vim"
-Bundle "garbas/vim-snipmate"
-Bundle "honza/vim-snippets"
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'garbas/vim-snipmate'
+Plugin 'honza/vim-snippets'
 
 " iced-coffee-script
-Bundle "AndrewRadev/vim-coffee-script"
+Plugin 'AndrewRadev/vim-coffee-script'
 
 " elm
-Bundle "lambdatoast/elm.vim"
+Plugin 'lambdatoast/elm.vim'
 
+call vundle#end()            " required
 filetype plugin indent on
  
 " end vundle
