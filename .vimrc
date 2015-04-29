@@ -6,8 +6,9 @@ set rtp+=~/.vim/bundle/Vundle.vim/
 call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'L9'
-Plugin 'https://github.com/kien/ctrlp.vim.git'
+Plugin 'kien/ctrlp.vim'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-fugitive'
@@ -20,10 +21,14 @@ Plugin 'rking/ag.vim'
 Plugin 'jnwhiteh/vim-golang'
 Plugin 'scrooloose/nerdtree'
 Plugin 'groenewege/vim-less'
-Plugin 'davidhalter/jedi-vim'
+" Plugin 'davidhalter/jedi-vim'
+Plugin 'suan/vim-instant-markdown'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'tikhomirov/vim-glsl'
+Plugin 'junegunn/goyo.vim'
+Plugin 'tpope/vim-dispatch'
+Plugin 'OmniSharp/omnisharp-vim.git'
 
 " snipmate
 Plugin 'MarcWeber/vim-addon-mw-utils'
@@ -41,6 +46,8 @@ call vundle#end()            " required
 filetype plugin indent on
  
 " end vundle
+
+let g:OmniSharp_selector_ui = 'ctrlp'  " Use ctrlp.vim
 
 let mapleader=","
 syntax on
@@ -185,3 +192,8 @@ if has("user_commands")
     command! -bang QA qa<bang>
     command! -bang Qa qa<bang>
 endif
+
+" force md files to be read as markdown
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.meta     " Linux/MacOSX
