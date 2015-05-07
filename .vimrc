@@ -40,7 +40,7 @@ Plugin 'honza/vim-snippets'
 Plugin 'AndrewRadev/vim-coffee-script'
 
 " elm
-Plugin 'lambdatoast/elm.vim'
+" Plugin 'lambdatoast/elm.vim'
 
 call vundle#end()            " required
 filetype plugin indent on
